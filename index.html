@@ -16,21 +16,56 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 20px; /* Add some space at the top */
+            position: relative; /* Needed for positioning the arrows */
         }
+
         #gif {
             width: 1000px; /* Set the gif to be 1000px wide */
             height: auto; /* Maintain aspect ratio */
         }
+
         #text {
             font-size: 24px;
             color: #333;
             display: none; /* Hidden by default */
         }
+
         .placeholder {
             width: 1000px;
             height: auto;
             display: block; /* Show the placeholder initially */
         }
+
+        /* Styles for the arrow images at the bottom right */
+        .arrow-icon {
+            position: absolute;
+            bottom: 20px;  /* Position them 20px from the bottom */
+            width: 50px;   /* Set a fixed size for the images */
+            height: auto;  /* Maintain aspect ratio */
+        }
+
+        #N {
+            left: 20px;
+        }
+
+        #A {
+            left: 80px;
+        }
+
+        #Y {
+            left: 140px;
+        }
+
+        /* Right arrow at the bottom-right */
+        #right-arrow {
+            right: 20px; /* Position it 20px from the right */
+        }
+
+        /* Left arrow at the bottom-left */
+        #left-arrow {
+            right: 80px; /* Position it 80px from the right, so it's slightly left of the right arrow */
+        }
+
     </style>
 </head>
 <body>
@@ -44,6 +79,15 @@
     
     <!-- Text element for the last page -->
     <div id="text"></div>
+
+    <!-- NAY -->
+    <img id="N" class="arrow-icon" src="./media/N_on.png">
+    <img id="A" class="arrow-icon" src="./media/A_on.png">
+    <img id="Y" class="arrow-icon" src="./media/Y_on.png">
+
+    <!-- Arrow Icons -->
+    <img id="left-arrow" class="arrow-icon" src="./media/left.png" alt="Left Arrow">
+    <img id="right-arrow" class="arrow-icon" src="./media/right.png" alt="Right Arrow">
 
     <script>
         let sounds = [];
@@ -97,8 +141,13 @@
         }
 
         function keyPressed() {
+            if (key === 'n' || key === 'N') {
+                console.log("n pressed");
+                document.getElementById("N").src == "./media/A_off.png";
+            }
+
             // Play sound and show GIF when 'p' is pressed
-            if ((key === 'p' || key === 'P') && !isPlaying && currentIndex != 3) {
+            if ((key === 'o' || key === 'O') && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
 
                 // Hide the current placeholder and show the preloaded GIF
