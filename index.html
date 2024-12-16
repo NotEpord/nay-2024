@@ -137,17 +137,24 @@
         }
 
         function setup() {
-            noCanvas(); // No need for a canvas in this example
+                noCanvas(); // No need for a canvas in this example
         }
 
         function keyPressed() {
             if (key === 'n' || key === 'N') {
-                console.log("n pressed");
-                document.getElementById("N").src == "./media/A_off.png";
+                document.getElementById("N").src == "./media/N_off.png";
+            }
+
+            if (key === 'a' || key === 'A') {
+                document.getElementById("A").src == "./media/A_off.png";
+            }
+
+            if (key === 'y' || key === 'Y') {
+                document.getElementById("Y").src == "./media/Y_off.png";
             }
 
             // Play sound and show GIF when 'p' is pressed
-            if ((key === 'o' || key === 'O') && !isPlaying && currentIndex != 3) {
+            if ((key === 'n' || key === 'N') && (key === 'a' || key === 'A') && (key === 'y' || key === 'Y') && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
 
                 // Hide the current placeholder and show the preloaded GIF
@@ -173,8 +180,20 @@
         }
 
         function keyReleased() {
+            if (key === 'n' || key === 'N') {
+                document.getElementById("N").src == "./media/N_on.png";
+            }
+
+            if (key === 'a' || key === 'A') {
+                document.getElementById("A").src == "./media/A_on.png";
+            }
+
+            if (key === 'y' || key === 'Y') {
+                document.getElementById("Y").src == "./media/Y_on.png";
+            }
+            
             // Stop sound and show placeholder when 'p' is released
-            if ((key === 'p' || key === 'P') && isPlaying) {
+            if ((key === 'n' || key === 'N') && (key === 'a' || key === 'A') && (key === 'y' || key === 'Y') && isPlaying) {
                 isPlaying = false;
 
                 // Hide the GIF and show the preloaded placeholder for the current page
