@@ -105,6 +105,9 @@
         ];
         let currentIndex = 0;  // Start with the first gif and sound
         let isPlaying = false; // Flag to track whether the GIF and sound are playing
+        let isNpressed = false;
+        let isApressed = false;
+        let isYpressed = false;
 
         // Preload images and gifs to avoid flicker
         let preloadedGifs = [];
@@ -142,19 +145,25 @@
 
         function keyPressed() {
             if (key === 'n' || key === 'N') {
+                isNpressed = true;
                 document.getElementById("N").src == "./media/N_off.png";
             }
 
             if (key === 'a' || key === 'A') {
+                isApressed = true;
                 document.getElementById("A").src == "./media/A_off.png";
             }
 
             if (key === 'y' || key === 'Y') {
+                isYpressed = true;
                 document.getElementById("Y").src == "./media/Y_off.png";
             }
 
             // Play sound and show GIF when 'p' is pressed
-            if ((key === 'n' || key === 'N') && (key === 'a' || key === 'A') && (key === 'y' || key === 'Y') && !isPlaying && currentIndex != 3) {
+            console.log(isNpressed);
+            console.log(isApressed);
+            console.log(isYpressed);
+            if (isNpressed && isApressed && isYpressed && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
 
                 // Hide the current placeholder and show the preloaded GIF
@@ -181,19 +190,22 @@
 
         function keyReleased() {
             if (key === 'n' || key === 'N') {
+                isNpressed = false;
                 document.getElementById("N").src == "./media/N_on.png";
             }
 
             if (key === 'a' || key === 'A') {
+                isApressed = false;
                 document.getElementById("A").src == "./media/A_on.png";
             }
 
             if (key === 'y' || key === 'Y') {
+                isYpressed = false;
                 document.getElementById("Y").src == "./media/Y_on.png";
             }
             
             // Stop sound and show placeholder when 'p' is released
-            if ((key === 'n' || key === 'N') && (key === 'a' || key === 'A') && (key === 'y' || key === 'Y') && isPlaying) {
+            if ((key === 'n' || key === 'N' || key === 'a' || key === 'A' || key === 'y' || key === 'Y') && isPlaying) {
                 isPlaying = false;
 
                 // Hide the GIF and show the preloaded placeholder for the current page
