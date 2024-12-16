@@ -26,8 +26,11 @@
 
         #text {
             font-size: 24px;
-            color: #333;
+            color: #f0f0f0;
             display: none; /* Hidden by default */
+            max-width: 600px;
+            text-align: justify;
+            font-family: 'Tahoma', sans-serif;
         }
 
         .placeholder {
@@ -256,12 +259,14 @@
                 document.getElementById('gif').src = ''; // Clear the src to prevent broken image
                 hideAllPlaceholders(); // Hide all placeholders
                 document.getElementById('text').style.display = 'block'; // Show the text
-                document.getElementById('text').innerText = 'This is the final text page!'; // Display the text
-            }
-
-            // Play the new sound if applicable
-            if (sounds[currentIndex]) {
-                // sounds[currentIndex].play();
+                document.getElementById('text').innerHTML = '<div></br></br></br>Happy birthday dear Gaveta! </br></br>\
+                I hope you liked this gift, and hopefully it wasn\'t too hard to figure out. How was your birthday today? Are you doing any celebration? I hope your cake was great!</br>\
+                Also, it\'s time for wishes again. Did your wishes and goals from last year came true? We need to continue with our experiment, so I think, as you said, we should both now try to believe in our wishes and see if that makes any difference.</br>\
+                </br>\
+                Thanks for still being my penpal and still sending me your amazing drawings. I\'m very glad that you are a part of my life, even if you\'re just a random <s>psycho</s> person from the internet. I wish you an amazing 32nd year in this planet, and who knows, maybe you can turn it in your best year so far!</br>\
+                </br>\
+                Enjoy and happy birthday again!<br/><br/>\
+                Epord</div>';
             }
 
             // Change background color based on the current page
@@ -276,15 +281,23 @@
                     break;
                 case 1:
                     document.body.style.backgroundColor = "rgb(18,12,10)"; // Misty rose for second gif
+                    document.body.style.backgroundImage = ""; // Misty rose for second gif
                     break;
                 case 2:
                     document.body.style.backgroundColor = "white"; // Light cyan for third gif
                     break;
                 case 3:
-                    document.body.style.backgroundColor = "#ffffff"; // White for the text page
+                document.body.style = "background-color:black;\
+background-image:\
+radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),\
+radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),\
+radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),\
+radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);\
+background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;\
+background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;";
                     break;
                 default:
-                    document.body.style.backgroundColor = "#ffffff"; // Default to white
+                    document.body.style.backgroundColor = "white";
             }
         }
 
