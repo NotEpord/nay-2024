@@ -86,8 +86,8 @@
     <img id="Y" class="arrow-icon" src="./media/Y_on.png">
 
     <!-- Arrow Icons -->
-    <img id="left-arrow" class="arrow-icon" src="./media/left.png" alt="Left Arrow">
-    <img id="right-arrow" class="arrow-icon" src="./media/right.png" alt="Right Arrow">
+    <img id="left-arrow" class="arrow-icon" src="./media/left.png" alt="Left Arrow" style="display: none;">
+    <img id="right-arrow" class="arrow-icon" src="./media/right.png" alt="Right Arrow" style="display: none;">
 
     <script>
         let sounds = [];
@@ -108,6 +108,7 @@
         let isNpressed = false;
         let isApressed = false;
         let isYpressed = false;
+        let allAtSameTimeAlredyPressed = false;
 
         // Preload images and gifs to avoid flicker
         let preloadedGifs = [];
@@ -163,6 +164,10 @@
 
             if (isNpressed && isApressed && isYpressed && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
+                allAtSameTimeAlredyPressed = true;
+
+                document.getElementById("left-arrow").style.display = "block";
+                document.getElementById("right-arrow").style.display = "block";
 
                 // Hide the current placeholder and show the preloaded GIF
                 hideAllPlaceholders();
@@ -179,9 +184,9 @@
             }
 
             // Check for left and right arrow keys to switch between pages
-            if (keyCode === LEFT_ARROW) {
+            if (keyCode === LEFT_ARROW && allAtSameTimeAlredyPressed) {
                 changePage(-1); // Go to the previous page
-            } else if (keyCode === RIGHT_ARROW) {
+            } else if (keyCode === RIGHT_ARROW && allAtSameTimeAlredyPressed) {
                 changePage(1); // Go to the next page
             }
         }
