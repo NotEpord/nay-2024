@@ -35,8 +35,12 @@
         function keyPressed() {
             if (key === 'p' || key === 'P') { // Check if 'P' is pressed
                 sound.play(); // Play the sound
-            } else {
-                sound.stop();
+            }
+        }
+
+        function keyReleased() {
+            if (key === 'p' || key === 'P') { // Check if 'P' is released
+                sound.stop(); // Stop the sound
             }
         }
     </script>
