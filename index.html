@@ -10,22 +10,64 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Align items to the top */
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
+            padding-top: 20px; /* Add some space at the top */
+        }
+        #gif {
+            width: 1000px; /* Set the gif to be 1000px wide */
+            height: auto; /* Maintain aspect ratio */
+        }
+        #text {
+            font-size: 24px;
+            color: #333;
+            display: none; /* Hidden by default */
+        }
+        .placeholder {
+            width: 1000px;
+            height: auto;
+            display: block; /* Show the placeholder initially */
         }
     </style>
 </head>
 <body>
-    <h1>Press "P" to Play Sound</h1>
+    <!-- Placeholder images (used when P is not pressed) -->
+    <img id="placeholder1" class="placeholder" src="./media/placeholder1.jpg">
+    <img id="placeholder2" class="placeholder" src="./media/placeholder2.jpg" style="display: none;">
+    <img id="placeholder3" class="placeholder" src="./media/placeholder3.jpg" style="display: none;">
     
+    <!-- Image element for the GIF -->
+    <img id="gif" src="./media/band1.gif" style="display: none;">
+    
+    <!-- Text element for the last page -->
+    <div id="text"></div>
+
     <script>
-        let sound;
+        let sounds = [];
+        let gifs = [
+            './media/band1.gif',  // Path to the first gif
+            './media/band2.gif',  // Path to the second gif
+            './media/band3.gif',  // Path to the third gif
+            null                  // For the text page, no gif
+        ];
+        let placeholders = [
+            './media/medium.jpeg', // Placeholder for the first gif
+            './media/medium.jpeg', // Placeholder for the second gif
+            './media/medium.jpeg', // Placeholder for the third gif
+            null                   // For the text page, no placeholder
+        ];
+        let currentIndex = 0;  // Start with the first gif and sound
+        let isPlaying = false; // Flag to track whether the GIF and sound are playing
 
         function preload() {
-            sound = loadSound('./media/music1.mp3'); // Load the sound file
+            // Load sound files for all three pages
+            sounds.push(loadSound('./media/music1.mp3')); // Sound for page 1
+            sounds.push(loadSound('./media/music2.mp3')); // Sound for page 2
+            sounds.push(loadSound('./media/music3.mp3')); // Sound for page 3
+            sounds.push(null); // No sound for the text page
         }
 
         function setup() {
@@ -33,14 +75,140 @@
         }
 
         function keyPressed() {
-            if (key === 'p' || key === 'P') { // Check if 'P' is pressed
-                sound.play(); // Play the sound
+            // Play sound and show GIF when 'p' is pressed
+            if ((key === 'p' || key === 'P') && !isPlaying && currentIndex != 3) {
+                isPlaying = true;
+
+                // Hide the current placeholder and show the GIF
+                hideAllPlaceholders();
+                document.getElementById('gif').style.display = 'block';
+                document.getElementById('gif').src = gifs[currentIndex]; // Update the GIF source
+
+                // Play the sound for the current page
+                if (sounds[currentIndex]) {
+                    sounds[currentIndex].play();
+                }
+
+                // Change the background color based on the current page
+                changeBackgroundColor();
+            }
+
+            // Check for left and right arrow keys to switch between pages
+            if (keyCode === LEFT_ARROW) {
+                changePage(-1); // Go to the previous page
+            } else if (keyCode === RIGHT_ARROW) {
+                changePage(1); // Go to the next page
             }
         }
 
         function keyReleased() {
-            if (key === 'p' || key === 'P') { // Check if 'P' is released
-                sound.stop(); // Stop the sound
+            // Stop sound and show placeholder when 'p' is released
+            if ((key === 'p' || key === 'P') && isPlaying) {
+                isPlaying = false;
+
+                // Hide the GIF and show the placeholder image for the current page
+                document.getElementById('gif').style.display = 'none';
+                showCurrentPlaceholder();
+
+                // Stop the sound if it's playing
+                if (sounds[currentIndex]) {
+                    sounds[currentIndex].stop();
+                }
+            }
+        }
+
+        // Function to handle the transition between pages
+        function changePage(direction) {
+            // Stop the current sound before switching
+            if (sounds[currentIndex]) {
+                sounds[currentIndex].stop();
+            }
+
+            // Update the current index based on the direction
+            currentIndex += direction;
+
+            // Loop around if the index goes out of bounds
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            } else if (currentIndex >= gifs.length) {
+                currentIndex = gifs.length - 1;
+            }
+
+            console.log("Current Index:", currentIndex); // Debug log to verify index
+
+            // Handle the display change based on the current index
+            if (gifs[currentIndex]) {
+                // Hide all placeholders and show the correct one for the new page
+                hideAllPlaceholders();
+                showCurrentPlaceholder();
+
+                document.getElementById('gif').style.display = 'none'; // Hide the gif initially
+                document.getElementById('text').style.display = 'none'; // Hide the text
+            } else {
+                // If it's the text page
+                document.getElementById('gif').style.display = 'none'; // Hide the gif
+                document.getElementById('gif').src = ''; // Clear the src to prevent broken image
+                hideAllPlaceholders(); // Hide all placeholders
+                document.getElementById('text').style.display = 'block'; // Show the text
+                document.getElementById('text').innerText = 'This is the final text page!'; // Display the text
+            }
+
+            // Play the new sound if applicable
+            if (sounds[currentIndex]) {
+                // sounds[currentIndex].play();
+            }
+
+            // Change background color based on the current page
+            changeBackgroundColor();
+        }
+
+        // Function to change the background color based on the current page
+        function changeBackgroundColor() {
+            switch (currentIndex) {
+                case 0:
+                    document.body.style.backgroundColor = "#f0f8ff"; // Light blue for first gif
+                    break;
+                case 1:
+                    document.body.style.backgroundColor = "#ffe4e1"; // Misty rose for second gif
+                    break;
+                case 2:
+                    document.body.style.backgroundColor = "rgb(18,12,10)"; // Light cyan for third gif
+                    break;
+                case 3:
+                    document.body.style.backgroundColor = "#ffffff"; // White for the text page
+                    break;
+                default:
+                    document.body.style.backgroundColor = "#ffffff"; // Default to white
+            }
+        }
+
+        // Hide all placeholders
+        function hideAllPlaceholders() {
+            document.getElementById('placeholder1').style.display = 'none';
+            document.getElementById('placeholder2').style.display = 'none';
+            document.getElementById('placeholder3').style.display = 'none';
+        }
+
+        // Show the current placeholder based on currentIndex
+        function showCurrentPlaceholder() {
+            if (currentIndex === 3) {
+                // Don't show any placeholder for the text page
+                return;
+            }
+
+            switch (currentIndex) {
+                case 0:
+                    document.getElementById('placeholder1').style.display = 'block';
+                    break;
+                case 1:
+                    document.getElementById('placeholder2').style.display = 'block';
+                    break;
+                case 2:
+                    document.getElementById('placeholder3').style.display = 'block';
+                    break;
+                default:
+                    // No placeholder to show for the text page (index 3)
+                    break;
             }
         }
     </script>
