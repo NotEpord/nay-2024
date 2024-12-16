@@ -54,13 +54,17 @@
             null                  // For the text page, no gif
         ];
         let placeholders = [
-            './media/medium.jpeg', // Placeholder for the first gif
-            './media/medium.jpeg', // Placeholder for the second gif
-            './media/medium.jpeg', // Placeholder for the third gif
-            null                   // For the text page, no placeholder
+            './media/placeholder1.jpg', // Placeholder for the first gif
+            './media/placeholder2.jpg', // Placeholder for the second gif
+            './media/placeholder3.jpg', // Placeholder for the third gif
+            null                        // For the text page, no placeholder
         ];
         let currentIndex = 0;  // Start with the first gif and sound
         let isPlaying = false; // Flag to track whether the GIF and sound are playing
+
+        // Preload images and gifs to avoid flicker
+        let preloadedGifs = [];
+        let preloadedPlaceholders = [];
 
         function preload() {
             // Load sound files for all three pages
@@ -68,6 +72,24 @@
             sounds.push(loadSound('./media/music2.mp3')); // Sound for page 2
             sounds.push(loadSound('./media/music3.mp3')); // Sound for page 3
             sounds.push(null); // No sound for the text page
+
+            // Preload GIFs
+            for (let i = 0; i < gifs.length; i++) {
+                if (gifs[i]) {
+                    let img = new Image();
+                    img.src = gifs[i];
+                    preloadedGifs.push(img);
+                } else {
+                    preloadedGifs.push(null);
+                }
+            }
+
+            // Preload placeholders
+            for (let i = 0; i < placeholders.length; i++) {
+                let img = new Image();
+                img.src = placeholders[i];
+                preloadedPlaceholders.push(img);
+            }
         }
 
         function setup() {
@@ -79,10 +101,10 @@
             if ((key === 'p' || key === 'P') && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
 
-                // Hide the current placeholder and show the GIF
+                // Hide the current placeholder and show the preloaded GIF
                 hideAllPlaceholders();
                 document.getElementById('gif').style.display = 'block';
-                document.getElementById('gif').src = gifs[currentIndex]; // Update the GIF source
+                document.getElementById('gif').src = preloadedGifs[currentIndex].src; // Use the preloaded GIF source
 
                 // Play the sound for the current page
                 if (sounds[currentIndex]) {
@@ -106,7 +128,7 @@
             if ((key === 'p' || key === 'P') && isPlaying) {
                 isPlaying = false;
 
-                // Hide the GIF and show the placeholder image for the current page
+                // Hide the GIF and show the preloaded placeholder for the current page
                 document.getElementById('gif').style.display = 'none';
                 showCurrentPlaceholder();
 
