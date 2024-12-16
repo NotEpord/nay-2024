@@ -146,23 +146,21 @@
         function keyPressed() {
             if (key === 'n' || key === 'N') {
                 isNpressed = true;
-                document.getElementById("N").src == "./media/N_off.png";
+                document.getElementById("N").src = "./media/N_off.png";
             }
 
             if (key === 'a' || key === 'A') {
                 isApressed = true;
-                document.getElementById("A").src == "./media/A_off.png";
+                document.getElementById("A").src = "./media/A_off.png";
             }
 
             if (key === 'y' || key === 'Y') {
                 isYpressed = true;
-                document.getElementById("Y").src == "./media/Y_off.png";
+                console.log(document.getElementById("Y").src)
+                document.getElementById("Y").src = "./media/Y_off.png";
+                console.log(document.getElementById("Y").src)
             }
 
-            // Play sound and show GIF when 'p' is pressed
-            console.log(isNpressed);
-            console.log(isApressed);
-            console.log(isYpressed);
             if (isNpressed && isApressed && isYpressed && !isPlaying && currentIndex != 3) {
                 isPlaying = true;
 
@@ -191,17 +189,18 @@
         function keyReleased() {
             if (key === 'n' || key === 'N') {
                 isNpressed = false;
-                document.getElementById("N").src == "./media/N_on.png";
+                document.getElementById("N").src = "./media/N_on.png";
             }
 
             if (key === 'a' || key === 'A') {
                 isApressed = false;
-                document.getElementById("A").src == "./media/A_on.png";
+                document.getElementById("A").src = "./media/A_on.png";
             }
 
             if (key === 'y' || key === 'Y') {
                 isYpressed = false;
-                document.getElementById("Y").src == "./media/Y_on.png";
+                console.log(document.getElementById("Y").src)
+                document.getElementById("Y").src = "./media/Y_on.png";
             }
             
             // Stop sound and show placeholder when 'p' is released
@@ -268,13 +267,13 @@
         function changeBackgroundColor() {
             switch (currentIndex) {
                 case 0:
-                    document.body.style.backgroundColor = "#f0f8ff"; // Light blue for first gif
+                    document.body.style.backgroundColor = "white"; // Light blue for first gif
                     break;
                 case 1:
-                    document.body.style.backgroundColor = "#ffe4e1"; // Misty rose for second gif
+                    document.body.style.backgroundColor = "rgb(18,12,10)"; // Misty rose for second gif
                     break;
                 case 2:
-                    document.body.style.backgroundColor = "rgb(18,12,10)"; // Light cyan for third gif
+                    document.body.style.backgroundColor = "white"; // Light cyan for third gif
                     break;
                 case 3:
                     document.body.style.backgroundColor = "#ffffff"; // White for the text page
