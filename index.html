@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>p5.js Example</title>
+    <title>Play Sound Example</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script> <!-- Include the p5.sound library -->
     <style>
         body {
             display: flex;
@@ -12,19 +13,29 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <h1>Press "P" to Play Sound</h1>
+    
     <script>
-        function setup() {
-            createCanvas(400, 400); // Create a canvas of width 400px and height 400px
+        let sound;
+
+        function preload() {
+            sound = loadSound('./media/music1.mp3'); // Load the sound file
         }
 
-        function draw() {
-            background(220); // Clear the background with a light color
-            fill(255, 0, 0); // Set fill color to red
-            ellipse(mouseX, mouseY, 50, 50); // Draw a circle that follows the mouse
+        function setup() {
+            noCanvas(); // No need for a canvas in this example
+        }
+
+        function keyPressed() {
+            if (key === 'p' || key === 'P') { // Check if 'P' is pressed
+                sound.play(); // Play the sound
+            }
         }
     </script>
 </body>
